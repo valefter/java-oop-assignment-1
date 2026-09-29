@@ -8,7 +8,7 @@ public abstract class Car implements Vehicle {
   protected final float consumptionPer100Km;
   protected float availableFuel;
   protected int tireSize;
-  protected String chassisNumber;
+  protected final String chassisNumber;
 
   private boolean isRunning;
   private int currentGear;
@@ -27,8 +27,8 @@ public abstract class Car implements Vehicle {
     this.fuelType = fuelType;
     this.gears = gears;
     this.consumptionPer100Km = consumptionPer100Km;
-    this.availableFuel = availableFuel;
-    this.tireSize = tireSize;
+    setAvailableFuel(availableFuel);
+    setTireSize(tireSize);
     this.chassisNumber = chassisNumber;
   }
 
@@ -92,6 +92,9 @@ public abstract class Car implements Vehicle {
   }
 
   public void setTireSize(int tireSize) {
+    if (tireSize < 15 || tireSize > 22) {
+      throw new IllegalArgumentException("Tire size must be between 15 and 22.");
+    }
     this.tireSize = tireSize;
   }
 
@@ -100,11 +103,11 @@ public abstract class Car implements Vehicle {
   }
 
   public void setAvailableFuel(float availableFuel) {
-    this.availableFuel = availableFuel;
-  }
+    if (availableFuel < 0 || availableFuel > fuelTankSize) {
+      throw new IllegalArgumentException("Available fuel must be between 0 and fuel tank size.");
+    }
 
-  public void setChassisNumber(String chassisNumber) {
-    this.chassisNumber = chassisNumber;
+    this.availableFuel = availableFuel;
   }
 
   protected int getCurrentGear() {
